@@ -27,3 +27,12 @@ func _OnConnectionSucceeded():
 
 func _OnDisconnection():
 	print("Succesfully disconnected from the authentication server")
+
+@rpc("reliable")
+func gateway_to_authenticator_authenticate_player(player_id, _username, _password):
+	multiplayer.rpc(1, self, "gateway_to_authenticator_authenticate_player", [player_id, _username, _password])
+
+@rpc("reliable")
+func authenticator_to_gateway_authenticate_player(_result, _player_id):
+	print("forwarding login results to the player")
+	Gateway.gateway_to_client_login_result(_result, _player_id)

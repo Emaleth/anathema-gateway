@@ -18,3 +18,4 @@ config/icon="res://icon.svg"
 [autoload]
 
 Authenticator="*res://authenticator.gd"
+Gateway="*res://gateway.gd"

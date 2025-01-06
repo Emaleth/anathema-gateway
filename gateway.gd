@@ -10,8 +10,9 @@ func _ready() -> void:
 	StartServer()
 
 func _process(_delta: float) -> void:
-	if gateway_api.has_multiplayer_peer():
-		gateway_api.poll()
+	if not gateway_api.has_multiplayer_peer():
+		return
+	gateway_api.poll()
 
 
 func StartServer() -> void:
@@ -30,3 +31,13 @@ func _Peer_Connected(player_id):
 
 func _Peer_Disconnected(player_id):
 	print("User " + str(player_id) + " Disconnected")
+
+@rpc("any_peer", "reliable")
+func client_to_gateway_login(_username, _password):
+	var player_id := gateway_api.get_remote_sender_id()
+	Authenticator.gateway_to_authenticator_authenticate_player(player_id, _username, _password)
+
+@rpc("reliable")
+func gateway_to_client_login_result(result, player_id):
+	gateway_api.rpc(player_id, self, "gateway_to_client_login_result", [result])
+	network.get_peer(player_id).peer_disconnect_later()
