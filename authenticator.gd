@@ -33,6 +33,6 @@ func gateway_to_authenticator_authenticate_player(player_id, _username, _passwor
 	multiplayer.rpc(1, self, "gateway_to_authenticator_authenticate_player", [player_id, _username, _password])
 
 @rpc("reliable")
-func authenticator_to_gateway_authenticate_player(_result, _player_id, uuid):
+func authenticator_to_gateway_authenticate_player(_result, _player_id, token):
 	print("forwarding login results to the player")
-	Gateway.gateway_to_client_login_result(_result, _player_id)
+	Gateway.gateway_to_client_login_result(_result, _player_id, token)
