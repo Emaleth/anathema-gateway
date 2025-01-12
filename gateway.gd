@@ -4,7 +4,8 @@ var network := ENetMultiplayerPeer.new()
 var gateway_api := MultiplayerAPI.create_default_interface()
 var port := 1910
 var max_players := 100
-
+var cert = load("res://X509_Certificate.crt")
+var key = load("res://X509_Key.key")
 
 func _ready() -> void:
 	StartServer()
@@ -17,6 +18,7 @@ func _process(_delta: float) -> void:
 
 func StartServer() -> void:
 	network.create_server(port, max_players)
+	network.host.dtls_server_setup(TLSOptions.server(key, cert))
 	get_tree().set_multiplayer(gateway_api, self.get_path())
 	gateway_api.multiplayer_peer = network
 	print("Gateway Server started")
