@@ -37,7 +37,7 @@ func _Peer_Disconnected(player_id):
 @rpc("any_peer", "reliable")
 func client_to_gateway_login(_username, _password):
 	var player_id := gateway_api.get_remote_sender_id()
-	Authenticator.gateway_to_authenticator_authenticate_player(player_id, _username, _password)
+	Authenticator.gateway_to_authenticator_authenticate_player(player_id, _username.to_lower(), _password)
 
 @rpc("any_peer", "reliable")
 func client_to_gateway_create_account(_username : String, _password : String):

@@ -39,4 +39,8 @@ func authenticator_to_gateway_authenticate_player(_result, _player_id, token):
 
 @rpc("reliable")
 func gateway_to_authenticator_create_account(_username, _password, player_id):
-	pass
+	multiplayer.rpc(1, self, "gateway_to_authenticator_create_account", [_username, _password, player_id])
+
+@rpc("reliable")
+func authenticator_to_gateway_create_account(result, player_id, message):
+	Gateway.gateway_to_client_create_account(result, player_id, message)
